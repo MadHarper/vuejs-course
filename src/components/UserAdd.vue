@@ -1,12 +1,41 @@
 <template>
   <div>
-Add
+    <user-form v-model="user" @submitUserForm="saveUser"></user-form>
   </div>
 </template>
 
 <script>
+import UserForm from './UserForm.vue'
+import axios from 'axios'
+import {userUrl} from '@/common/ApiUrl.js'
+
 export default {
-  name: 'UserAdd'
+  name: 'UserAdd',
+  components: {
+    UserForm
+  },
+  data: () => ({
+    'user': {
+      'isActive': false,
+      'balance': '$0',
+      'picture': 'http://i.imgur.com/',
+      'age': 20,
+      'firstName': '',
+      'lastName': '',
+      'company': '',
+      'email': '',
+      'phone': '+7 (000) 000-0000',
+      'address': '',
+      'about': '',
+      'registered': '2018-01-01T00:00:00 -00:00'
+    }
+  }),
+  methods: {
+    saveUser () {
+      axios.post(userUrl, this.user)
+        .then(this.$router.push('/list'))
+    }
+  }
 }
 </script>
 
