@@ -29,16 +29,16 @@
 
 <script>
 import axios from 'axios'
+import {userUrl} from '@/common/ApiUrl.js'
 
 export default {
   name: 'Table',
   data: () => ({
-    'url': 'http://localhost:3000/users',
     'users': []
   }),
   methods: {
     loadData () {
-      axios.get(this.url)
+      axios.get(userUrl)
         .then(response => {
           this.users = response.data
         })

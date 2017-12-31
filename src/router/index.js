@@ -17,6 +17,7 @@ export default new Router({
     },
     {
       path: '/list',
+      name: 'Users list',
       component: Table
     },
     {

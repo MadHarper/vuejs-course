@@ -10,6 +10,7 @@ November 2017
 npm install
 
 # serve with hot reload at localhost:8080
+npm run fake
 npm run dev
 
 # build for production with minification
