@@ -11,7 +11,7 @@
           <th>Teлефон</th>
           <th>3apeгистрирован</th>
         </tr>
-        <tr v-for="user in users" :key="user.id">
+        <tr v-for="(user, index) in users" :key="user.id" v-if="index >= beginIndex && index <= endIndex">
           <td>
             <router-link :to="`user/${user.id}`"># {{ user.id }}</router-link>
           </td>
@@ -24,17 +24,24 @@
           <td>{{ user.registered }}</td>
         </tr>
       </table>
+      <pagination :countItems="users.length" @pageChanged="onPageChanged"></pagination>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import {userUrl} from '@/common/ApiUrl.js'
+import Pagination from './Pagination'
 
 export default {
   name: 'Table',
+  components: {
+    Pagination
+  },
   data: () => ({
-    'users': []
+    'users': [],
+    'beginIndex': 0,
+    'endIndex': 0
   }),
   methods: {
     loadData () {
@@ -42,6 +49,10 @@ export default {
         .then(response => {
           this.users = response.data
         })
+    },
+    onPageChanged (params) {
+      this.beginIndex = (params.activePage - 1) * params.perPage
+      this.endIndex = this.beginIndex + params.perPage - 1
     }
   },
   mounted () {
