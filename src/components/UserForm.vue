@@ -1,6 +1,5 @@
 <template>
   <div>
-    <form  @submit="onSubmit">
       <div class="form-group">
         <label for="firstName">Имя</label>
         <input v-model="user.firstName" class="form-control" id="firstName">
@@ -8,6 +7,15 @@
       <div class="form-group">
         <label for="lastName">Фамилия</label>
         <input v-model="user.lastName" class="form-control" id="lastName">
+      </div>
+      <div class="form-group">
+        <label for="picture">URL картинки</label>
+        <div>
+          <img class="img-thumbnail" :src="user.picture" />
+        </div>
+        <input class="hidden" type="file" ref="image" @change="upload"/>
+        <button class="btn btn-default" @click="$refs.image.click()">Выбрать новую</button>
+        <input v-model="user.picture" class="form-control" id="picture">
       </div>
       <div class="checkbox">
         <label>
@@ -37,12 +45,13 @@
       <div class="form-group">
         <button type="submit" class="btn btn-success">Сохранить</button>
       </div>
-    </form>
 
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'UserForm',
   props: {
@@ -57,8 +66,27 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
-      this.$emit('submitUserForm')
+    upload () {
+      const url = 'https://api.imgur.com/3/image'
+
+      const data = new FormData()
+      data.append('image', this.$refs.image.files[0])
+
+      const config = {
+        headers: {
+          'Authorization': 'Client-ID 50a0a405112208a'
+        }
+      }
+
+      axios.post(url, data, config)
+          .then(response => {
+            this.user.picture = response.data.data.link
+            this.$refs.image.value = ''
+          })
+          .catch(error => {
+            console.log('image post error')
+            console.log(error)
+          })
     }
   }
 }
