@@ -43,6 +43,10 @@
         <textarea v-model="user.about" class="form-control" id="about" rows="3"></textarea>
       </div>
       <div class="form-group">
+          <label for="registered">Дата регистрации</label>
+          <date-picker v-model="user.registered" id="registered"></date-picker>
+      </div>
+      <div class="form-group">
         <button type="submit" class="btn btn-success">Сохранить</button>
       </div>
 
@@ -51,9 +55,13 @@
 
 <script>
 import axios from 'axios'
+import DatePicker from './DatePicker.vue'
 
 export default {
   name: 'UserForm',
+  components: {
+    DatePicker
+  },
   props: {
     value: {
       type: Object,
