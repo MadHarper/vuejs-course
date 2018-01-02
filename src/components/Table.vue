@@ -1,7 +1,8 @@
 <template>
+
   <div>
-    <table class="table table-bordered">
-        <tr>
+    <dashboard-grid :url="url" :beginIndex="beginIndex" :endIndex="endIndex" @loaded="length => {usersLength = length}">
+        <tr slot="header">
           <th>#</th>
           <th>Имя</th>
           <th>Фамилия</th>
@@ -11,7 +12,7 @@
           <th>Teлефон</th>
           <th>3apeгистрирован</th>
         </tr>
-        <tr v-for="(user, index) in users" :key="user.id" v-if="index >= beginIndex && index <= endIndex">
+        <template slot="row" slot-scope="user">
           <td>
             <router-link :to="`user/${user.id}`"># {{ user.id }}</router-link>
           </td>
@@ -22,41 +23,35 @@
           <td>{{ user.email }}</td>
           <td>{{ user.phone }}</td>
           <td>{{ user.registered }}</td>
-        </tr>
-      </table>
-      <pagination :countItems="users.length" @pageChanged="onPageChanged"></pagination>
+        </template>
+    </dashboard-grid>
+    <pagination :countItems="usersLength" @pageChanged="onPageChanged"></pagination>
   </div>
+
 </template>
 
 <script>
-import axios from 'axios'
 import {userUrl} from '@/common/ApiUrl.js'
 import Pagination from './Pagination'
+import DashboardGrid from './DashboardGrid'
 
 export default {
   name: 'Table',
   components: {
-    Pagination
+    Pagination,
+    DashboardGrid
   },
   data: () => ({
-    'users': [],
-    'beginIndex': 0,
-    'endIndex': 0
+    url: userUrl,
+    usersLength: 0,
+    beginIndex: 0,
+    endIndex: 0
   }),
   methods: {
-    loadData () {
-      axios.get(userUrl)
-        .then(response => {
-          this.users = response.data
-        })
-    },
     onPageChanged (params) {
       this.beginIndex = (params.activePage - 1) * params.perPage
       this.endIndex = this.beginIndex + params.perPage - 1
     }
-  },
-  mounted () {
-    this.loadData()
   }
 }
 </script>
