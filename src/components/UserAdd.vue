@@ -1,6 +1,9 @@
 <template>
   <div>
-    <user-form v-model="user" @submitUserForm="saveUser"></user-form>
+    <user-form :user="user" ></user-form>
+    <div class="form-group">
+      <button class="btn btn-success" @click="saveUser">Сохранить</button>
+    </div>
   </div>
 </template>
 
@@ -27,13 +30,15 @@ export default {
       'phone': '+7 (000) 000-0000',
       'address': '',
       'about': '',
-      'registered': '2018-01-01T00:00:00 -00:00'
+      'registered': '2018-01-01'
     }
   }),
   methods: {
     saveUser () {
       axios.post(userUrl, this.user)
-        .then(this.$router.push('/list'))
+        .then(() => {
+          this.$router.push('/list')
+        })
     }
   }
 }

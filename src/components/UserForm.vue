@@ -46,9 +46,6 @@
           <label for="registered">Дата регистрации</label>
           <date-picker v-model="user.registered" id="registered"></date-picker>
       </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-success">Сохранить</button>
-      </div>
 
   </div>
 </template>
@@ -63,14 +60,9 @@ export default {
     DatePicker
   },
   props: {
-    value: {
+    user: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    user () {
-      return this.value
     }
   },
   methods: {

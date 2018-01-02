@@ -1,7 +1,13 @@
 <template>
+
   <div>
-<user-form v-model="user" @submitUserForm="saveUser"></user-form>
+    <user-form :user="user"></user-form>
+    <div class="form-group">
+      <button class="btn btn-success" @click="saveUser">Сохранить</button>
+      <button class="btn btn-danger" @click="deleteUser">Удалить</button>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -34,7 +40,19 @@ export default {
     },
     saveUser () {
       axios.patch(this.url, this.user)
-          .then(this.$router.push('/list'))
+          .then(() => {
+            this.$router.push('/list')
+          })
+    },
+    deleteUser () {
+      const confirmed = confirm('Удалить пользователя')
+      if (!confirmed) {
+        return
+      }
+      axios.delete(this.url)
+          .then(() => {
+            this.$router.push('/list')
+          })
     }
   },
   mounted () {
