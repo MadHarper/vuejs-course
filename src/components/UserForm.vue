@@ -17,10 +17,11 @@
         <button class="btn btn-default" @click="$refs.image.click()">Выбрать новую</button>
         <input v-model="user.picture" class="form-control" id="picture">
       </div>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" v-model="user.isActive"> Активен
-        </label>
+      <div class="pretty p-default p-curve">
+          <input type="checkbox" v-model="user.isActive"/>
+          <div class="state">
+              <label>Активен</label>
+          </div>
       </div>
       <div class="form-group">
         <label for="company">Компания</label>
@@ -53,6 +54,7 @@
 <script>
 import axios from 'axios'
 import DatePicker from './DatePicker.vue'
+import 'pretty-checkbox/dist/pretty-checkbox.css'
 
 export default {
   name: 'UserForm',
