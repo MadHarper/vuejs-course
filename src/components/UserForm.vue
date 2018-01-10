@@ -37,8 +37,8 @@
         <input v-model="user.address" class="form-control" id="address">
       </div>
       <div class="form-group">
-        <label for="about">Описание</label>
-        <textarea v-model="user.about" class="form-control" id="about" rows="3"></textarea>
+        <label>Описание</label>
+        <editor :html="user.about" @edit="data => {user.about = data}"></editor>
       </div>
       <div class="form-group">
           <label for="registered">Дата регистрации</label>
@@ -52,12 +52,14 @@
 import axios from 'axios'
 import DatePicker from './DatePicker.vue'
 import PrettyCheckbox from './PrettyCheckbox.vue'
+import Editor from './Editor.vue'
 
 export default {
   name: 'UserForm',
   components: {
     DatePicker,
-    PrettyCheckbox
+    PrettyCheckbox,
+    Editor
   },
   props: {
     user: {
