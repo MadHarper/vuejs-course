@@ -4,6 +4,8 @@
 
 <script>
     import MediumEditor from 'medium-editor'
+    import 'medium-editor/dist/css/medium-editor.css'
+    import 'medium-editor/dist/css/themes/bootstrap.css'
 
     export default {
       name: 'Editor',
